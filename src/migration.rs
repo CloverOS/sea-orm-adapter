@@ -1,6 +1,6 @@
 use sea_orm::{
-    sea_query::{ColumnDef, Index, Table},
     ConnectionTrait, DbErr, DeriveIden, ExecResult,
+    sea_query::{ColumnDef, Index, Table},
 };
 
 #[derive(DeriveIden)]
@@ -51,8 +51,7 @@ pub async fn up<C: ConnectionTrait>(conn: &C) -> Result<ExecResult, DbErr> {
         )
         .to_owned();
 
-    let builder = conn.get_database_backend();
-    conn.execute(builder.build(&create_table)).await
+    conn.execute(&create_table).await
 }
 
 pub async fn down<C: ConnectionTrait>(conn: &C) -> Result<ExecResult, DbErr> {
@@ -61,6 +60,5 @@ pub async fn down<C: ConnectionTrait>(conn: &C) -> Result<ExecResult, DbErr> {
         .table(CasbinRule::Table)
         .to_owned();
 
-    let builder = conn.get_database_backend();
-    conn.execute(builder.build(&drop_table)).await
+    conn.execute(&drop_table).await
 }
