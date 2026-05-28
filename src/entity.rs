@@ -2,21 +2,26 @@
 
 use sea_orm::entity::prelude::*;
 
+#[sea_orm::model]
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
 #[sea_orm(table_name = "casbin_rule")]
 pub struct Model {
     #[sea_orm(primary_key)]
     pub id: i64,
+    #[sea_orm(unique_key = "unique_key_sea_orm_adapter")]
     pub ptype: String,
+    #[sea_orm(unique_key = "unique_key_sea_orm_adapter")]
     pub v0: String,
+    #[sea_orm(unique_key = "unique_key_sea_orm_adapter")]
     pub v1: String,
+    #[sea_orm(unique_key = "unique_key_sea_orm_adapter")]
     pub v2: String,
+    #[sea_orm(unique_key = "unique_key_sea_orm_adapter")]
     pub v3: String,
+    #[sea_orm(unique_key = "unique_key_sea_orm_adapter")]
     pub v4: String,
+    #[sea_orm(unique_key = "unique_key_sea_orm_adapter")]
     pub v5: String,
 }
-
-#[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
-pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}
