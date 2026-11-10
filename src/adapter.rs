@@ -13,6 +13,7 @@ pub struct SeaOrmAdapter {
 }
 
 impl SeaOrmAdapter {
+    /// Synchronizes the policy schema before constructing the adapter.
     pub async fn new(conn: DatabaseConnection) -> Result<Self> {
         match conn
             .get_schema_builder()
@@ -20,11 +21,16 @@ impl SeaOrmAdapter {
             .sync(&conn)
             .await
         {
-            Ok(_) => Ok(Self {
-                conn,
-                is_filtered: false,
-            }),
+            Ok(_) => Ok(Self::from_connection(conn)),
             Err(err) => Err(CasbinError::from(AdapterError(Box::new(err)))),
+        }
+    }
+
+    /// Uses a connection whose policy table has already been migrated.
+    pub fn from_connection(conn: DatabaseConnection) -> Self {
+        Self {
+            conn,
+            is_filtered: false,
         }
     }
 }
